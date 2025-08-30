@@ -6,5 +6,5 @@ st.write(
     "Let's start building!"
 )
 
-df = pd.read_excel("Data.xlsx")
+df = pd.read_excel("Datos/Data.xlsx")
 df.head()

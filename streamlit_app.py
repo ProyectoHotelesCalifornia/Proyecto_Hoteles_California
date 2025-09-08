@@ -31,19 +31,24 @@
 
 # archivo: hotel_search.py
 
+# archivo: hotel_search.py
+
 import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import nltk
+from nltk.corpus import stopwords
 
 # ---------------------------
-# 1. Cargar dataset de ejemplo
+# 1. Descargar stopwords en español (solo la primera vez)
 # ---------------------------
-# Debes tener dos archivos:
-# hoteles.csv -> id, nombre, ciudad, estrellas
-# reseñas.csv -> id_hotel, reseña
+nltk.download("stopwords")
+stop_words = stopwords.words("spanish")
 
-# Para demo, generamos ejemplos
+# ---------------------------
+# 2. Cargar dataset de ejemplo
+# ---------------------------
 hoteles = pd.DataFrame({
     "id": [1, 2, 3],
     "nombre": ["Hotel Pacific Breeze", "Sunset Inn", "Quiet Garden Hotel"],
@@ -51,9 +56,9 @@ hoteles = pd.DataFrame({
     "estrellas": [4, 3, 5]
 })
 
-resenas = pd.DataFrame({
+reseñas = pd.DataFrame({
     "id_hotel": [1, 2, 3],
-    "resena": [
+    "reseña": [
         "Muy tranquilo y cerca de la playa.",
         "Económico pero ruidoso, ubicado en el centro.",
         "Un lugar muy silencioso con jardines hermosos."
@@ -61,13 +66,13 @@ resenas = pd.DataFrame({
 })
 
 # ---------------------------
-# 2. Preparar TF-IDF
+# 3. Preparar TF-IDF con stopwords en español
 # ---------------------------
-vectorizer = TfidfVectorizer(stop_words="spanish")
-X = vectorizer.fit_transform(resenas["resena"])
+vectorizer = TfidfVectorizer(stop_words=stop_words)
+X = vectorizer.fit_transform(reseñas["reseña"])
 
 # ---------------------------
-# 3. Interfaz en Streamlit
+# 4. Interfaz en Streamlit
 # ---------------------------
 st.title("Buscador de Hoteles en California 🏨")
 
@@ -86,8 +91,8 @@ if st.button("Buscar"):
         sims = cosine_similarity(q_vec, X).flatten()
 
         # Ordenamos reseñas según similitud
-        resenas["similaridad"] = sims
-        resultados = resenas.sort_values(by="similaridad", ascending=False)
+        reseñas["similaridad"] = sims
+        resultados = reseñas.sort_values(by="similaridad", ascending=False)
 
         # Unimos con hoteles
         resultados = resultados.merge(hoteles, left_on="id_hotel", right_on="id")
@@ -105,5 +110,5 @@ if st.button("Buscar"):
             st.subheader("Resultados:")
             for _, row in resultados.head(5).iterrows():
                 st.write(f"🏨 **{row['nombre']}** ({row['estrellas']}⭐, {row['ciudad']})")
-                st.write(f"Reseña destacada: {row['resena']}")
+                st.write(f"Reseña destacada: {row['reseña']}")
                 st.write("---")

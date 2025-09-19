@@ -2,3 +2,4 @@ final_database.csv filter=lfs diff=lfs merge=lfs -text
 reviews_california_clean.csv filter=lfs diff=lfs merge=lfs -text
 df_clean.csv filter=lfs diff=lfs merge=lfs -text
 df_clean_reviews.csv filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text

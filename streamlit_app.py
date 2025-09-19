@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Cargar tu base de datos
-df = pd.read_csv("final_database.csv")  # O el nombre de tu archivo
+df = pd.read_csv("https://github.com/melody-10/Proyecto_Hoteles_California/blob/main/final_database.csv?raw=true")  # O el nombre de tu archivo
 
 st.title("Explorador de Reviews por Tópico")
 

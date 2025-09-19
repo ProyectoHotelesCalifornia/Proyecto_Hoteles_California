@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
 import ast
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
+
 
 st.title("Chatbot RAG sobre CSV de Reviews")
 

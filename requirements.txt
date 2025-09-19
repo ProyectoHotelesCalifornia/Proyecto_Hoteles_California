@@ -4,3 +4,4 @@ langchain-openai
 faiss-cpu==1.7.4
 openai
 tiktoken
+python-dotenv==1.0.1

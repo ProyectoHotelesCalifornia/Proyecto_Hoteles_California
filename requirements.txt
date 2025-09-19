@@ -1,2 +1,6 @@
 streamlit
 pandas
+ast
+langchain
+openai
+langchain-community

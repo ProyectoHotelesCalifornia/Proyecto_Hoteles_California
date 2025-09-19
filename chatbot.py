@@ -29,8 +29,13 @@ for _, row in df.iterrows():
 api_key = st.secrets["openai"]["api_key"]
 
 # 5️⃣ Crear embeddings y vectorstore
-embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-small",
+    openai_api_key=api_key
+)
+
 vectorstore = FAISS.from_texts(documents, embeddings)
+
 
 # 6️⃣ Crear chatbot RAG
 retriever = vectorstore.as_retriever()

@@ -1,7 +1,6 @@
 streamlit
 pandas
 langchain-openai
-faiss-cpu==1.7.4
+faiss-cpu==1.12.0
 openai
 tiktoken
-python-dotenv==1.0.1

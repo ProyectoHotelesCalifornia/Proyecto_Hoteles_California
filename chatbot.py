@@ -9,6 +9,13 @@ import time
 import openai
 from openai.error import RateLimitError
 
+
+from langchain_community.vectorstores import Chroma
+
+from langchain.prompts import ChatPromptTemplate
+
+from dotenv import load_dotenv
+
 def safe_embed(texts, embeddings, retries=3, delay=5):
     for attempt in range(retries):
         try:

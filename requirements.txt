@@ -8,12 +8,20 @@
 # tiktoken
 # python-dotenv==1.0.1
 
-python-dotenv==1.0.1 
-langchain==0.2.2
-langchain-community==0.2.3
-langchain-openai==0.1.8 
-unstructured==0.14.4 
+# python-dotenv==1.0.1 
+# langchain==0.2.2
+# langchain-community==0.2.3
+# langchain-openai==0.1.8 
+# unstructured==0.14.4 
 
-chromadb==0.5.0 # Vector storage
-openai==1.31.1 # For embeddings
-tiktoken==0.7.0  # For embeddings 
+# chromadb==0.5.0 # Vector storage
+# openai==1.31.1 # For embeddings
+# tiktoken==0.7.0  # For embeddings 
+
+streamlit==1.37.1
+pandas==2.2.2
+langchain==0.2.6
+langchain-community==0.2.6
+langchain-openai==0.1.8
+faiss-cpu==1.8.0
+unstructured==0.16.9

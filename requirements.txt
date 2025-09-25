@@ -18,10 +18,18 @@
 # openai==1.31.1 # For embeddings
 # tiktoken==0.7.0  # For embeddings 
 #python==3.11.9
-streamlit==1.37.1
-pandas==2.2.2
-langchain==0.2.6
-langchain-community==0.2.6
-langchain-openai==0.1.8
-faiss-cpu==1.8.0
+# streamlit==1.37.1
+# pandas==2.2.2
+# langchain==0.2.6
+# langchain-community==0.2.6
+# langchain-openai==0.1.8
+# faiss-cpu==1.8.0
 #unstructured==0.16.9
+
+streamlit
+pandas
+langchain
+langchain-community
+faiss-cpu
+sentence-transformers
+huggingface-hub

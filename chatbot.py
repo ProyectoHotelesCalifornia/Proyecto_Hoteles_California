@@ -1,42 +1,46 @@
 import streamlit as st
 import pandas as pd
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
+from langchain_community.llms import HuggingFaceHub
 
-# 1️⃣ Configuración en la barra lateral
-st.sidebar.title("🔑 Configuración")
-openai_api_key = st.sidebar.text_input("Introduce tu OpenAI API Key:", type="password")
+# 1️⃣ Cargar el CSV existente
+@st.cache_data
+def load_data():
+    df = pd.read_csv("https://github.com/melody-10/Proyecto_Hoteles_California/blob/main/final_database.csv?raw=true")  # tu archivo precargado
+    return df
 
-if not openai_api_key:
-    st.warning("Por favor ingresa tu API key en la barra lateral.")
-    st.stop()
+df = load_data()
 
-# 2️⃣ Cargar tu CSV precargado (ajusta la ruta)
-df = pd.read_csv("https://github.com/melody-10/Proyecto_Hoteles_California/blob/main/final_database.csv?raw=true")
+# 2️⃣ Crear embeddings con HuggingFace (modelo ligero y rápido)
+@st.cache_resource
+def create_vectorstore(texts):
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    vectorstore = FAISS.from_texts(texts, embeddings)
+    return vectorstore
 
+documents = df["text"].astype(str).tolist()
+vectorstore = create_vectorstore(documents)
 
-# 3️⃣ Preparar documentos desde la columna "text"
-documents = df["text"].dropna().astype(str).tolist()
-
-# 4️⃣ Crear embeddings y vectorstore
-embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-small",
-    openai_api_key=openai_api_key
+# 3️⃣ Crear el LLM desde HuggingFace (gratis, pero más lento que OpenAI)
+#    Puedes cambiar "google/flan-t5-small" por uno más grande si tu hosting lo permite
+llm = HuggingFaceHub(
+    repo_id="google/flan-t5-small",
+    model_kwargs={"temperature":0.1, "max_length":256}
 )
-vectorstore = FAISS.from_texts(documents, embeddings)
 
-# 5️⃣ Crear modelo y cadena QA
-llm = ChatOpenAI(openai_api_key=openai_api_key, model="gpt-4o-mini")
-qa_chain = RetrievalQA.from_chain_type(
+# 4️⃣ Configurar el QA chain
+qa = RetrievalQA.from_chain_type(
     llm=llm,
     retriever=vectorstore.as_retriever()
 )
 
-# 6️⃣ Interfaz de chat
-st.title("🤖 Chatbot sobre tu base de datos")
-user_q = st.text_input("Haz tu pregunta:")
+# 5️⃣ Interfaz en Streamlit
+st.title("🔍 Chatbot de Reviews de Hoteles (HuggingFace)")
 
-if user_q:
-    answer = qa_chain.run(user_q)
-    st.write("**Respuesta:**", answer)
+user_query = st.text_input("Escribe tu pregunta:")
+if user_query:
+    with st.spinner("Buscando respuesta..."):
+        response = qa.run(user_query)
+        st.write("**Respuesta:**", response)

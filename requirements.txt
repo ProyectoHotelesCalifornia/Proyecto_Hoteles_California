@@ -24,4 +24,4 @@ langchain==0.2.6
 langchain-community==0.2.6
 langchain-openai==0.1.8
 faiss-cpu==1.8.0
-unstructured==0.16.9
+#unstructured==0.16.9

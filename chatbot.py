@@ -13,11 +13,8 @@ if not openai_api_key:
     st.stop()
 
 # 2️⃣ Cargar tu CSV precargado (ajusta la ruta)
-df = pd.read_csv("data/database.csv")
+df = pd.read_csv("https://github.com/melody-10/Proyecto_Hoteles_California/blob/main/final_database.csv?raw=true")
 
-if "text" not in df.columns:
-    st.error("El CSV no contiene una columna llamada 'text'.")
-    st.stop()
 
 # 3️⃣ Preparar documentos desde la columna "text"
 documents = df["text"].dropna().astype(str).tolist()

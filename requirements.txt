@@ -28,8 +28,4 @@
 
 streamlit
 pandas
-langchain
-langchain-community
-faiss-cpu
-sentence-transformers
-huggingface-hub
+scikit-learn

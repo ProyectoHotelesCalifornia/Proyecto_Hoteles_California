@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Cargar dataset
 df = pd.read_csv("https://github.com/melody-10/Proyecto_Hoteles_California/blob/main/final_database.csv?raw=true")
-texts = df["texto"].tolist()
+texts = df["text"].tolist()
 
 # Vectorizar con TF-IDF
 vectorizer = TfidfVectorizer()
